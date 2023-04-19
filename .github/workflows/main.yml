@@ -35,20 +35,29 @@ jobs:
           
       - name: Checkout code
         uses: actions/checkout@v2
+      
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
         
-      - name: Create kubeconfig
+      - name: Try the cluster !
+        run: kubectl get pods -A
+        
+      - name: Build image
         run: |
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
+          export SHELL=/bin/bash
+          eval $(minikube -p minikube docker-env)
+          docker build -f ./Dockerfile -t thilina9718/nodeapp .
+          echo -n "verifying images:"
+          docker images        
           
-#       - name: Use context
-#         run: kubectl config use-context dev-frontend
-        
-      - name: Deploy to K8s
+      - name: Deploy to minikube
         run: |
           kubectl apply -f deployment.yml
           kubectl apply -f service.yml
+          
+      - name: Test service URLs
+        run: |
+          kubectl expose deployment deployment-nodeapp --type=LoadBalancer --port=8080
           minikube service list
           minikube service service-nodeapp --url
           kubectl get ep -o wide
