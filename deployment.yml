@@ -4,10 +4,6 @@ metadata:
   name: deployment-nodeapp
   labels:
     app: nodeapp
-    
-contexts:
-  - context:
-    name: dev-frontend
   
 spec:
   replicas: 2
