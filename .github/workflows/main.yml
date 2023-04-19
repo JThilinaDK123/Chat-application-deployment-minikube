@@ -27,8 +27,8 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker tag deploy-app ${{ secrets.DOCKER_USERNAME }}/deploy-app:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/deploy-app:${{ github.sha }}
+          docker tag nodeapp ${{ secrets.DOCKER_USERNAME }}/nodeapp:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/nodeapp:${{ github.sha }}
           
       - name: Checkout code
         uses: actions/checkout@v2
