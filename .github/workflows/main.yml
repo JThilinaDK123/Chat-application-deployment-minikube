@@ -43,7 +43,7 @@ jobs:
           cat ${HOME}/.kube/config
           
       - name: Use context
-        run: kubectl config use-context deployment-nodeapp
+        run: kubectl config use-context dev-frontend
         
       - name: Deploy to K8s
         run: kubectl apply -f k8s/
